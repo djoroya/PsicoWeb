@@ -16,6 +16,16 @@ def seed_db():
     with open(json_path, 'r') as f:
         data = json.load(f)
 
+    # Define unique keys for upsert operations
+    unique_keys = {
+        'users': 'username',
+        'settings': 'key',
+        'services': 'title',
+        'treatments': 'title',
+        'psychologists': 'name',
+        'blog_posts': 'slug'
+    }
+
     for collection_name, records in data.items():
         if not records:
             continue
@@ -23,24 +33,33 @@ def seed_db():
         print(f"Seeding collection: {collection_name}")
         collection = db[collection_name]
         
-        # Clear existing data
-        collection.delete_many({})
-        print(f"  - Cleared existing data")
+        # Get unique key for this collection
+        key_field = unique_keys.get(collection_name)
+        if not key_field:
+            print(f"  - Warning: No unique key defined for {collection_name}, skipping upsert.")
+            continue
 
-        # Process records before insertion
-        formatted_records = []
+        upserted_count = 0
         for record in records:
             # Hash password for users collection
             if collection_name == 'users' and 'password' in record:
-                hashed = bcrypt.hashpw(record['password'].encode('utf-8'), bcrypt.gensalt())
+                # Override admin password if env var is set
+                if record.get('username') == 'admin' and os.environ.get('SEED_ADMIN_PASSWORD'):
+                    print(f"  - Overriding admin password from environment variable")
+                    password_to_hash = os.environ.get('SEED_ADMIN_PASSWORD')
+                else:
+                    password_to_hash = record['password']
+                
+                hashed = bcrypt.hashpw(password_to_hash.encode('utf-8'), bcrypt.gensalt())
                 record['password'] = hashed.decode('utf-8')
             
-            formatted_records.append(record)
-
-        # Insert new data
-        if formatted_records:
-            collection.insert_many(formatted_records)
-            print(f"  - Inserted {len(formatted_records)} records")
+            # Perform Upsert
+            filter_query = {key_field: record[key_field]}
+            result = collection.update_one(filter_query, {'$set': record}, upsert=True)
+            if result.upserted_id:
+                upserted_count += 1
+        
+        print(f"  - Upserted/Updated {len(records)} records")
 
     print("Database seeding completed successfully.")
 
