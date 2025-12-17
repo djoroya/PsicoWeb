@@ -1,4 +1,4 @@
-import { Card, Col, Row, Spinner } from 'react-bootstrap';
+import { Card, Col, Row, Spinner, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { usePublicData } from '../../hooks/usePublicData';
 
@@ -6,7 +6,7 @@ const Blog = () => {
   const { data, loading } = usePublicData('/blog');
   if (loading || !data) return <Spinner animation="border" />;
   return (
-    <div>
+    <Container className="py-5">
       <h1>Blog</h1>
       <Row className="g-3">
         {data.map((post) => (
@@ -22,7 +22,7 @@ const Blog = () => {
           </Col>
         ))}
       </Row>
-    </div>
+    </Container>
   );
 };
 

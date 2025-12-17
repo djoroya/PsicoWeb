@@ -1,6 +1,39 @@
+:root {
+  --bs-primary: #0f766e; /* Teal 700 */
+  --bs-primary-rgb: 15, 118, 110;
+  --bs-secondary: #64748b; /* Slate 500 */
+  --bs-secondary-rgb: 100, 116, 139;
+  --bs-body-bg: #f8fafc; /* Slate 50 */
+}
+
 body {
-  background-color: #f8f9fa;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bs-body-bg);
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  color: #334155;
+}
+
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+  background-color: #0d9488; /* Teal 600 */
+  border-color: #0d9488;
+}
+
+.btn-outline-primary {
+  color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
 }
 
 img {

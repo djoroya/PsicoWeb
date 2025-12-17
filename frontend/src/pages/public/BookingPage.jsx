@@ -1,4 +1,4 @@
-import { Alert, Button, Spinner } from 'react-bootstrap';
+import { Alert, Button, Spinner, Container } from 'react-bootstrap';
 import { usePublicData } from '../../hooks/usePublicData';
 
 const BookingPage = () => {
@@ -7,7 +7,7 @@ const BookingPage = () => {
   if (error) return <Alert variant="danger">{error}</Alert>;
 
   return (
-    <div>
+    <Container className="py-5">
       <h1>Reservar cita</h1>
       {data.booking_url ? (
         <div className="p-3 bg-white rounded shadow-sm">
@@ -22,7 +22,7 @@ const BookingPage = () => {
       ) : (
         <p>Aún no se ha configurado el sistema de reservas.</p>
       )}
-    </div>
+    </Container>
   );
 };
 

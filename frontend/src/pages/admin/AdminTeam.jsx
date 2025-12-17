@@ -1,15 +1,32 @@
 import { useState } from 'react';
 import { Alert, Button, Form, Table } from 'react-bootstrap';
 import { useAdminResource } from '../../hooks/useAdminResource';
+import ImageUpload from '../../components/ImageUpload';
 
 const AdminTeam = () => {
   const { items, createItem, updateItem, removeItem, error } = useAdminResource('/psychologists');
   const [form, setForm] = useState({ name: '', bio: '', specialty: '', photo_url: '', active: true });
+  const [editingId, setEditingId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createItem(form);
+    if (editingId) {
+      await updateItem(editingId, form);
+      setEditingId(null);
+    } else {
+      await createItem(form);
+    }
     setForm({ name: '', bio: '', specialty: '', photo_url: '', active: true });
+  };
+
+  const handleEdit = (item) => {
+    setForm(item);
+    setEditingId(item._id);
+  };
+
+  const handleCancel = () => {
+    setForm({ name: '', bio: '', specialty: '', photo_url: '', active: true });
+    setEditingId(null);
   };
 
   const toggleActive = async (psych) => {
@@ -36,10 +53,11 @@ const AdminTeam = () => {
           <Form.Label>Bio</Form.Label>
           <Form.Control as="textarea" rows={2} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} />
         </Form.Group>
-        <Form.Group className="mb-2">
-          <Form.Label>Foto</Form.Label>
-          <Form.Control value={form.photo_url} onChange={(e) => setForm({ ...form, photo_url: e.target.value })} />
-        </Form.Group>
+        <ImageUpload
+          label="Foto de perfil"
+          value={form.photo_url}
+          onChange={(url) => setForm({ ...form, photo_url: url })}
+        />
         <Form.Check
           type="checkbox"
           label="Activo"
@@ -47,7 +65,14 @@ const AdminTeam = () => {
           onChange={(e) => setForm({ ...form, active: e.target.checked })}
           className="mb-2"
         />
-        <Button type="submit">Agregar profesional</Button>
+        <div className="d-flex gap-2">
+          <Button type="submit">{editingId ? 'Actualizar' : 'Agregar'} profesional</Button>
+          {editingId && (
+            <Button variant="secondary" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          )}
+        </div>
       </Form>
 
       <Table striped bordered hover>
@@ -67,6 +92,14 @@ const AdminTeam = () => {
               <td>
                 <Button variant={psych.active ? 'success' : 'secondary'} size="sm" onClick={() => toggleActive(psych)}>
                   {psych.active ? 'Activo' : 'Inactivo'}
+                </Button>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  className="ms-2"
+                  onClick={() => handleEdit(psych)}
+                >
+                  Editar
                 </Button>
               </td>
               <td>

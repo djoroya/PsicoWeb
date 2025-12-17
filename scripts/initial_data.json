@@ -1,0 +1,85 @@
+{
+    "users": [
+        {
+            "username": "admin",
+            "password": "admin123",
+            "role": "admin"
+        }
+    ],
+    "settings": [
+        {
+            "key": "home_hero",
+            "value": {
+                "title": "Bienvenido a PsicoWeb",
+                "subtitle": "Tu salud mental es nuestra prioridad",
+                "image": "https://images.unsplash.com/photo-1541199249251-f7160312967b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+            }
+        },
+        {
+            "key": "booking_url",
+            "value": "https://calendly.com/psicoweb-demo"
+        }
+    ],
+    "services": [
+        {
+            "title": "Terapia Individual",
+            "description": "Sesiones personalizadas para abordar ansiedad, depresión y otros desafíos.",
+            "image": "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "price": "60€"
+        },
+        {
+            "title": "Terapia de Pareja",
+            "description": "Mejora la comunicación y resuelve conflictos en tu relación.",
+            "image": "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "price": "80€"
+        },
+        {
+            "title": "Terapia Infantil",
+            "description": "Apoyo especializado para niños y adolescentes.",
+            "image": "https://images.unsplash.com/photo-1606092195730-5d7b9af1ef4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "price": "60€"
+        }
+    ],
+    "treatments": [
+        {
+            "title": "Ansiedad y Estrés",
+            "content": "Tratamiento cognitivo-conductual para manejar la ansiedad y recupera la calma."
+        },
+        {
+            "title": "Depresión",
+            "content": "Te acompañamos paso a paso para superar la depresión y recuperar tu bienestar."
+        }
+    ],
+    "psychologists": [
+        {
+            "name": "Dra. María González",
+            "specialty": "Psicóloga Clínica",
+            "bio": "Especialista en ansiedad y terapia cognitivo-conductual con 10 años de experiencia.",
+            "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "active": true
+        },
+        {
+            "name": "Lic. Carlos Ruiz",
+            "specialty": "Terapia de Pareja",
+            "bio": "Ayudo a las parejas a reencontrarse y fortalecer su vínculo.",
+            "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "active": true
+        }
+    ],
+    "blog_posts": [
+        {
+            "title": "5 Consejos para manejar el estrés",
+            "slug": "manejar-estres",
+            "content": "El estrés es una respuesta natural...",
+            "image": "https://images.unsplash.com/photo-1508672019048-805c276b67e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "created_at": "2023-10-25T10:00:00Z"
+        },
+        {
+            "title": "¿Cuándo acudir un psicólogo?",
+            "slug": "cuando-acudir-psicologo",
+            "content": "Muchas personas se preguntan si necesitan ayuda profesional...",
+            "image": "https://images.unsplash.com/photo-1527137342181-19aab11a8ee8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            "created_at": "2023-11-05T10:00:00Z"
+        }
+    ]
+}

@@ -1,15 +1,32 @@
 import { useState } from 'react';
 import { Alert, Button, Form, Table } from 'react-bootstrap';
 import { useAdminResource } from '../../hooks/useAdminResource';
+import ImageUpload from '../../components/ImageUpload';
 
 const AdminBlog = () => {
-  const { items, createItem, removeItem, error } = useAdminResource('/blog');
+  const { items, createItem, updateItem, removeItem, error } = useAdminResource('/blog');
   const [form, setForm] = useState({ title: '', slug: '', content: '', cover_image: '' });
+  const [editingId, setEditingId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createItem(form);
+    if (editingId) {
+      await updateItem(editingId, form);
+      setEditingId(null);
+    } else {
+      await createItem(form);
+    }
     setForm({ title: '', slug: '', content: '', cover_image: '' });
+  };
+
+  const handleEdit = (item) => {
+    setForm(item);
+    setEditingId(item._id);
+  };
+
+  const handleCancel = () => {
+    setForm({ title: '', slug: '', content: '', cover_image: '' });
+    setEditingId(null);
   };
 
   return (
@@ -34,11 +51,19 @@ const AdminBlog = () => {
             onChange={(e) => setForm({ ...form, content: e.target.value })}
           />
         </Form.Group>
-        <Form.Group className="mb-2">
-          <Form.Label>Imagen</Form.Label>
-          <Form.Control value={form.cover_image} onChange={(e) => setForm({ ...form, cover_image: e.target.value })} />
-        </Form.Group>
-        <Button type="submit">Publicar</Button>
+        <ImageUpload
+          label="Imagen de portada"
+          value={form.cover_image}
+          onChange={(url) => setForm({ ...form, cover_image: url })}
+        />
+        <div className="d-flex gap-2">
+          <Button type="submit">{editingId ? 'Actualizar' : 'Publicar'}</Button>
+          {editingId && (
+            <Button variant="secondary" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          )}
+        </div>
       </Form>
 
       <Table striped bordered hover>
@@ -55,6 +80,14 @@ const AdminBlog = () => {
               <td>{post.title}</td>
               <td>{post.slug}</td>
               <td>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => handleEdit(post)}
+                >
+                  Editar
+                </Button>
                 <Button variant="outline-danger" size="sm" onClick={() => removeItem(post._id)}>
                   Eliminar
                 </Button>

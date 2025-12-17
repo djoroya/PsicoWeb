@@ -2,3 +2,4 @@
 backend/.env
 .env
 *.pyc
+backend/uploads/*.png

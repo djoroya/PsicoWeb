@@ -1,15 +1,32 @@
 import { useState } from 'react';
 import { Alert, Button, Form, Table } from 'react-bootstrap';
 import { useAdminResource } from '../../hooks/useAdminResource';
+import ImageUpload from '../../components/ImageUpload';
 
 const AdminServices = () => {
   const { items, createItem, updateItem, removeItem, error } = useAdminResource('/services');
   const [form, setForm] = useState({ title: '', description: '', price: 0, duration: 0, image_url: '' });
+  const [editingId, setEditingId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createItem(form);
+    if (editingId) {
+      await updateItem(editingId, form);
+      setEditingId(null);
+    } else {
+      await createItem(form);
+    }
     setForm({ title: '', description: '', price: 0, duration: 0, image_url: '' });
+  };
+
+  const handleEdit = (item) => {
+    setForm(item);
+    setEditingId(item._id);
+  };
+
+  const handleCancel = () => {
+    setForm({ title: '', description: '', price: 0, duration: 0, image_url: '' });
+    setEditingId(null);
   };
 
   return (
@@ -46,11 +63,19 @@ const AdminServices = () => {
             onChange={(e) => setForm({ ...form, duration: Number(e.target.value) })}
           />
         </Form.Group>
-        <Form.Group className="mb-2">
-          <Form.Label>Imagen</Form.Label>
-          <Form.Control value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} />
-        </Form.Group>
-        <Button type="submit">Crear servicio</Button>
+        <ImageUpload
+          label="Imagen del servicio"
+          value={form.image_url}
+          onChange={(url) => setForm({ ...form, image_url: url })}
+        />
+        <div className="d-flex gap-2">
+          <Button type="submit">{editingId ? 'Actualizar' : 'Crear'} servicio</Button>
+          {editingId && (
+            <Button variant="secondary" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          )}
+        </div>
       </Form>
 
       <Table striped bordered hover>
@@ -69,6 +94,14 @@ const AdminServices = () => {
               <td>{service.price} €</td>
               <td>{service.duration} min</td>
               <td>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => handleEdit(service)}
+                >
+                  Editar
+                </Button>
                 <Button
                   variant="outline-danger"
                   size="sm"

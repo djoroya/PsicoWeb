@@ -1,4 +1,4 @@
-import { Card, Col, Row, Spinner } from 'react-bootstrap';
+import { Card, Col, Row, Spinner, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { usePublicData } from '../../hooks/usePublicData';
 
@@ -6,7 +6,7 @@ const Team = () => {
   const { data, loading } = usePublicData('/equipo');
   if (loading || !data) return <Spinner animation="border" />;
   return (
-    <div>
+    <Container className="py-5">
       <h1>Equipo de psicólogos</h1>
       <Row className="g-3">
         {data.map((p) => (
@@ -22,7 +22,7 @@ const Team = () => {
           </Col>
         ))}
       </Row>
-    </div>
+    </Container>
   );
 };
 

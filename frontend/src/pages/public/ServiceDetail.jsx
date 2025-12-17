@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Container } from 'react-bootstrap';
 import { usePublicData } from '../../hooks/usePublicData';
 
 const ServiceDetail = () => {
@@ -7,7 +7,7 @@ const ServiceDetail = () => {
   const { data, loading } = usePublicData(`/servicios/${id}`);
   if (loading || !data) return <Spinner animation="border" />;
   return (
-    <div>
+    <Container className="py-5">
       <h1>{data.title}</h1>
       {data.image_url && <img src={data.image_url} alt={data.title} className="img-fluid mb-3" />}
       <p>{data.description}</p>
@@ -17,7 +17,7 @@ const ServiceDetail = () => {
       <p>
         <strong>Duración:</strong> {data.duration} minutos
       </p>
-    </div>
+    </Container>
   );
 };
 
