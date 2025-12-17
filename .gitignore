@@ -1,0 +1,4 @@
+.conda
+backend/.env
+.env
+*.pyc
