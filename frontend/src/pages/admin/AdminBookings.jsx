@@ -1,16 +1,19 @@
-import { Alert, Spinner, Table } from 'react-bootstrap';
 import { useAdminResource } from '../../hooks/useAdminResource';
 
 const AdminBookings = () => {
   const { items, loading, error } = useAdminResource('/bookings');
 
-  if (loading) return <Spinner animation="border" />;
-  if (error) return <Alert variant="danger">{error}</Alert>;
+  if (loading) return (
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Cargando...</span>
+    </div>
+  );
+  if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
     <div>
       <h1>Reservas (solo lectura)</h1>
-      <Table striped bordered hover>
+      <table className="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th>Externo</th>
@@ -31,7 +34,7 @@ const AdminBookings = () => {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 };

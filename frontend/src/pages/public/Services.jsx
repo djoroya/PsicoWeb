@@ -1,31 +1,34 @@
-import { Card, Col, Row, Spinner, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { usePublicData } from '../../hooks/usePublicData';
 
 const Services = () => {
   const { data, loading } = usePublicData('/servicios');
-  if (loading || !data) return <Spinner animation="border" />;
+  if (loading || !data) return (
+    <div className="text-center py-5">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  );
   return (
-    <Container className="py-5">
+    <div className="container py-5">
       <h1>Servicios</h1>
-      <Row className="g-3">
+      <div className="row g-3">
         {data.map((service) => (
-          <Col md={4} key={service._id}>
-            <Card>
-              {service.image_url && <Card.Img variant="top" src={service.image_url} alt={service.title} />}
-              <Card.Body>
-                <Card.Title>{service.title}</Card.Title>
-                <Card.Text>{service.description}</Card.Text>
-                <Card.Text>
-                  <strong>{service.price} €</strong> · {service.duration} min
-                </Card.Text>
-                <Link to={`/servicios/${service._id}`}>Ver detalle</Link>
-              </Card.Body>
-            </Card>
-          </Col>
+          <div className="col-md-4" key={service._id}>
+            <div className="card h-100">
+              {service.image_url && <img src={service.image_url} className="card-img-top" alt={service.title} />}
+              <div className="card-body">
+                <h5 className="card-title">{service.title}</h5>
+                <p className="card-text">{service.description}</p>
+                <p className="text-muted fw-bold">{service.price} € - {service.duration} min</p>
+                <Link to={`/servicios/${service._id}`} className="btn btn-primary">Ver detalle</Link>
+              </div>
+            </div>
+          </div>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 

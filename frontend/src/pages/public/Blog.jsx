@@ -1,28 +1,33 @@
-import { Card, Col, Row, Spinner, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { usePublicData } from '../../hooks/usePublicData';
 
 const Blog = () => {
   const { data, loading } = usePublicData('/blog');
-  if (loading || !data) return <Spinner animation="border" />;
+  if (loading || !data) return (
+    <div className="text-center py-5">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  );
   return (
-    <Container className="py-5">
+    <div className="container py-5">
       <h1>Blog</h1>
-      <Row className="g-3">
+      <div className="row g-3">
         {data.map((post) => (
-          <Col md={4} key={post._id}>
-            <Card>
-              {post.cover_image && <Card.Img variant="top" src={post.cover_image} alt={post.title} />}
-              <Card.Body>
-                <Card.Title>{post.title}</Card.Title>
-                <p className="text-muted">{new Date(post.created_at).toLocaleDateString()}</p>
-                <Link to={`/blog/${post.slug}`}>Leer artículo</Link>
-              </Card.Body>
-            </Card>
-          </Col>
+          <div className="col-md-4" key={post._id}>
+            <div className="card h-100">
+              {post.cover_image && <img src={post.cover_image} className="card-img-top" alt={post.title} />}
+              <div className="card-body">
+                <h5 className="card-title">{post.title}</h5>
+                <p className="text-muted small">{new Date(post.created_at).toLocaleDateString()}</p>
+                <Link to={`/blog/${post.slug}`} className="btn btn-primary">Leer artículo</Link>
+              </div>
+            </div>
+          </div>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 

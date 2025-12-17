@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Alert, Button, Form, Table } from 'react-bootstrap';
 import { useAdminResource } from '../../hooks/useAdminResource';
 import ImageUpload from '../../components/ImageUpload';
 
@@ -32,53 +31,61 @@ const AdminServices = () => {
   return (
     <div>
       <h1>Servicios</h1>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Form onSubmit={handleSubmit} className="bg-white p-3 rounded shadow-sm mb-3">
-        <Form.Group className="mb-2">
-          <Form.Label>Título</Form.Label>
-          <Form.Control value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
-        </Form.Group>
-        <Form.Group className="mb-2">
-          <Form.Label>Descripción</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={2}
+      {error && <div className="alert alert-danger mb-3">{error}</div>}
+      <form onSubmit={handleSubmit} className="bg-white p-3 rounded shadow-sm mb-3">
+        <div className="mb-2">
+          <label className="form-label">Título</label>
+          <input
+            type="text"
+            className="form-control"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            required
+          />
+        </div>
+        <div className="mb-2">
+          <label className="form-label">Descripción</label>
+          <textarea
+            className="form-control"
+            rows="2"
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
-        </Form.Group>
-        <Form.Group className="mb-2">
-          <Form.Label>Precio (€)</Form.Label>
-          <Form.Control
+        </div>
+        <div className="mb-2">
+          <label className="form-label">Precio (€)</label>
+          <input
             type="number"
+            className="form-control"
             value={form.price}
             onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
           />
-        </Form.Group>
-        <Form.Group className="mb-2">
-          <Form.Label>Duración (min)</Form.Label>
-          <Form.Control
+        </div>
+        <div className="mb-2">
+          <label className="form-label">Duración (min)</label>
+          <input
             type="number"
+            className="form-control"
             value={form.duration}
             onChange={(e) => setForm({ ...form, duration: Number(e.target.value) })}
           />
-        </Form.Group>
+        </div>
         <ImageUpload
           label="Imagen del servicio"
           value={form.image_url}
           onChange={(url) => setForm({ ...form, image_url: url })}
         />
         <div className="d-flex gap-2">
-          <Button type="submit">{editingId ? 'Actualizar' : 'Crear'} servicio</Button>
+          <button type="submit" className="btn btn-primary">{editingId ? 'Actualizar' : 'Crear'} servicio</button>
           {editingId && (
-            <Button variant="secondary" onClick={handleCancel}>
+            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
               Cancelar
-            </Button>
+            </button>
           )}
         </div>
-      </Form>
+      </form>
 
-      <Table striped bordered hover>
+      <table className="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th>Título</th>
@@ -94,26 +101,23 @@ const AdminServices = () => {
               <td>{service.price} €</td>
               <td>{service.duration} min</td>
               <td>
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  className="me-2"
+                <button
+                  className="btn btn-outline-primary btn-sm me-2"
                   onClick={() => handleEdit(service)}
                 >
                   Editar
-                </Button>
-                <Button
-                  variant="outline-danger"
-                  size="sm"
+                </button>
+                <button
+                  className="btn btn-outline-danger btn-sm"
                   onClick={() => removeItem(service._id)}
                 >
                   Eliminar
-                </Button>
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 };
