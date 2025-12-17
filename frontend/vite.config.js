@@ -12,6 +12,8 @@ export default defineConfig({
       '@context': path.resolve(__dirname, './src/context'),
       '@services': path.resolve(__dirname, './src/services'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
+      'react-router-dom': '/src/react-router-dom.jsx',
+      'react-bootstrap': '/src/react-bootstrap.jsx',
     }
   },
   server: {
